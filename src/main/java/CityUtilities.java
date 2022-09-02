@@ -3,6 +3,8 @@ package main.java;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CityUtilities {
 	/**
@@ -67,5 +69,19 @@ public class CityUtilities {
 	 */
 	public static void findMaxPopulation(List<City> cities) {
 		System.out.println(cities.stream().max(Comparator.comparing(City::getPopulation)));
+	}
+
+	/**
+	 * Поиск количества городов в разрезе регионов.
+	 *
+	 * @param cities Массив городов.
+	 */
+	public static void numberOfCities(List<City> cities) {
+		Map<String, Integer> regions = cities.stream()
+				.collect(Collectors.toMap(
+						City::getRegion,
+						e -> 1,
+						Integer::sum));
+		regions.forEach((region, amount) -> System.out.println(MessageFormat.format(" {0} - {1}", region, amount)));
 	}
 }
